@@ -134,6 +134,8 @@ Main galaxy image (see .galaxy-bg-image) must remain crisp -- no blur or masking
   position: relative;
   z-index: 20;   /* was 10, increase above all galaxy bg layers */
   isolation: isolate; /* prevent backdrop-filter from escaping overlay/cards */
+  color: #000000;
+  text-align: left;
 }
 
 /* Glass panels/overlays/cards/sidebars- add here, but NOT to App root! */

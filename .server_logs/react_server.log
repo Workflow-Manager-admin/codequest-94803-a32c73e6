@@ -6,9 +6,9 @@ Attempting to bind to HOST environment variable: 0.0.0.0
 If this was unintentional, check that you haven't mistakenly set it in your shell.
 Learn more here: https://cra.link/advanced-config
 
-(node:25186) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:27313) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-(node:25186) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(node:27313) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
 Starting the development server...
 
 Compiled successfully!
@@ -22,6 +22,79 @@ Note that the development build is not optimized.
 To create a production build, use npm run build.
 
 webpack compiled successfully
+Compiling...
+Compiled successfully!
+webpack compiled successfully
+Compiling...
+Failed to compile.
+
+Attempted import error: 'loadFull' is not exported from 'tsparticles' (imported as 'loadFull').
+WARNING in [eslint] 
+src/components/GalaxyBackground.js
+  Line 31:9:  'PALETTE' is assigned a value but never used  no-unused-vars
+
+ERROR in ./src/components/GalaxyBackground.js 33:10-18
+export 'loadFull' (imported as 'loadFull') was not found in 'tsparticles' (possible exports: Canvas, Circle, CircleWarp, Constants, Container, Engine, EventListeners, ExternalInteractorBase, FrameManager, InteractionManager, Loader, Main, Options, OptionsColor, Particle, Particles, ParticlesInteractorBase, Plugins, Point, QuadTree, Range, Rectangle, Retina, Vector, Vector3d, alterHsl, animate, areBoundsInside, arrayRandomIndex, calcEasing, calcExactPositionOrRandomFromSize, calcExactPositionOrRandomFromSizeRanged, calcPositionFromSize, calcPositionOrRandomFromSize, calcPositionOrRandomFromSizeRanged, calculateBounds, cancelAnimation, circleBounce, circleBounceDataFromParticle, clamp, clear, collisionVelocity, colorMix, colorToHsl, colorToRgb, deepExtend, divMode, divModeExecute, drawConnectLine, drawEllipse, drawGrabLine, drawLinkLine, drawLinkTriangle, drawParticle, drawParticlePlugin, drawPlugin, drawShape, drawShapeAfterEffect, getDistance, getDistances, getHslAnimationFromHsl, getHslFromAnimation, getLinkColor, getLinkRandomColor, getParticleBaseVelocity, getParticleDirectionAngle, getRandomRgbColor, getRangeMax, getRangeMin, getRangeValue, getStyleFromHsl, getStyleFromHsv, getStyleFromRgb, getValue, gradient, hslToHsv, hslToRgb, hslaToHsva, hslaToRgba, hsvToHsl, hsvToRgb, hsvaToHsla, hsvaToRgba, isDivModeEnabled, isInArray, isPointInside, isSsr, itemFromArray, loadAbsorbersPlugin, loadEmittersPlugin, loadFont, loadPolygonMaskPlugin, mix, pJSDom, paintBase, particlesJS, randomInRange, rectBounce, rgbToHsl, rgbToHsv, rgbaToHsva, setRangeValue, singleDivModeExecute, stringToAlpha, stringToRgb, tsParticles)
+
+webpack compiled with 1 error and 1 warning
+Compiling...
+Failed to compile.
+
+Attempted import error: 'loadFull' is not exported from 'tsparticles-engine' (imported as 'loadFull').
+WARNING in [eslint] 
+src/components/GalaxyBackground.js
+  Line 31:9:  'PALETTE' is assigned a value but never used  no-unused-vars
+
+ERROR in ./src/components/GalaxyBackground.js 33:10-18
+export 'loadFull' (imported as 'loadFull') was not found in 'tsparticles-engine' (possible exports: AnimatableColor, AnimationOptions, AnimationValueWithRandom, Background, BackgroundMask, BackgroundMaskCover, Circle, ClickEvent, Collisions, CollisionsAbsorb, CollisionsOverlap, ColorAnimation, DivEvent, Events, ExternalInteractorBase, FullScreen, HoverEvent, HslAnimation, HslColorManager, Interactivity, ManualParticle, Modes, Move, MoveAngle, MoveAttract, MoveCenter, MoveGravity, MovePath, MoveTrail, Opacity, OpacityAnimation, Options, OptionsColor, OutModes, Parallax, ParticlesBounce, ParticlesBounceFactor, ParticlesDensity, ParticlesInteractorBase, ParticlesNumber, ParticlesOptions, Point, Range, RangedAnimationOptions, RangedAnimationValueWithRandom, Rectangle, ResizeEvent, Responsive, RgbColorManager, Shadow, Shape, Size, SizeAnimation, Spin, Stroke, Theme, ThemeDefault, ValueWithRandom, Vector, Vector3d, ZIndex, addColorManager, addEasing, alterHsl, areBoundsInside, arrayRandomIndex, calcExactPositionOrRandomFromSize, calcExactPositionOrRandomFromSizeRanged, calcPositionFromSize, calcPositionOrRandomFromSize, calcPositionOrRandomFromSizeRanged, calculateBounds, circleBounce, circleBounceDataFromParticle, clamp, clear, collisionVelocity, colorMix, colorToHsl, colorToRgb, deepExtend, divMode, divModeExecute, drawLine, drawParticle, drawParticlePlugin, drawPlugin, drawShape, drawShapeAfterEffect, drawTriangle, errorPrefix, executeOnSingleOrMultiple, findItemFromSingleOrMultiple, generatedAttribute, getDistance, getDistances, getEasing, getHslAnimationFromHsl, getHslFromAnimation, getLinkColor, getLinkRandomColor, getLogger, getParticleBaseVelocity, getParticleDirectionAngle, getPosition, getRandom, getRandomRgbColor, getRangeMax, getRangeMin, getRangeValue, getSize, getStyleFromHsl, getStyleFromRgb, getValue, hasMatchMedia, hslToRgb, hslaToRgba, initParticleNumericAnimationValue, isArray, isBoolean, isDivModeEnabled, isFunction, isInArray, isNumber, isObject, isPointInside, isSsr, isString, itemFromArray, itemFromSingleOrMultiple, loadFont, loadOptions, loadParticlesOptions, mix, mouseDownEvent, mouseLeaveEvent, mouseMoveEvent, mouseOutEvent, mouseUpEvent, paintBase, paintImage, parseAlpha, randomInRange, rangeColorToHsl, rangeColorToRgb, rectBounce, resizeEvent, rgbToHsl, safeMatchMedia, safeMutationObserver, setLogger, setRandom, setRangeValue, singleDivModeExecute, stringToAlpha, stringToRgb, touchCancelEvent, touchEndEvent, touchMoveEvent, touchStartEvent, tsParticles, visibilityChangeEvent)
+
+webpack compiled with 1 error and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint] 
+src/components/GalaxyBackground.js
+  Line 281:15:  'particlesInit' is not defined  no-undef
+  Line 298:15:  'particlesInit' is not defined  no-undef
+  Line 314:15:  'particlesInit' is not defined  no-undef
+  Line 330:15:  'particlesInit' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+WARNING in [eslint] 
+src/components/GalaxyBackground.js
+  Line 1:25:  'useCallback' is defined but never used       no-unused-vars
+  Line 3:10:  'loadFull' is defined but never used          no-unused-vars
+  Line 26:9:  'PALETTE' is assigned a value but never used  no-unused-vars
+
+ERROR in [eslint] 
+src/components/GalaxyBackground.js
+  Line 281:15:  'particlesInit' is not defined  no-undef
+  Line 298:15:  'particlesInit' is not defined  no-undef
+  Line 314:15:  'particlesInit' is not defined  no-undef
+  Line 330:15:  'particlesInit' is not defined  no-undef
+
+Search for the keywords to learn more about each error.
+
+webpack compiled with 1 error and 1 warning
+Compiling...
+Compiled with warnings.
+
+[eslint] 
+src/components/GalaxyBackground.js
+  Line 1:25:  'useCallback' is defined but never used       no-unused-vars
+  Line 3:10:  'loadFull' is defined but never used          no-unused-vars
+  Line 26:9:  'PALETTE' is assigned a value but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint] 
+src/components/GalaxyBackground.js
+  Line 1:25:  'useCallback' is defined but never used       no-unused-vars
+  Line 3:10:  'loadFull' is defined but never used          no-unused-vars
+  Line 26:9:  'PALETTE' is assigned a value but never used  no-unused-vars
+
+webpack compiled with 1 warning
 Compiling...
 Compiled successfully!
 webpack compiled successfully
