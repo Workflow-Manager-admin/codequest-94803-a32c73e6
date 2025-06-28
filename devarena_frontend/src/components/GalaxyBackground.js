@@ -1,5 +1,7 @@
 import React from "react";
 import Particles from "react-tsparticles";
+// PUBLIC_INTERFACE
+// Always use this image as the single source for galaxy background.
 import galaxyBg from "../assets/20250628_153355_galaxt_.png";
 
 /**
