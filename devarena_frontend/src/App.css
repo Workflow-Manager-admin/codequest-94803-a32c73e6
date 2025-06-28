@@ -54,7 +54,10 @@ body, html {
   width: 100vw;
   height: 100vh;
   /* Let the glassmorphism and UI float above */
+  top: 0; left: 0;
 }
+
+/* Layer: Main galaxy image, softly blended */
 .galaxy-bg-image-blend {
   pointer-events: none;
   position: fixed;
@@ -64,7 +67,6 @@ body, html {
   z-index: 1;
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
-  /* overlay a near-circular/ellipse alpha gradient for blending */
   background: radial-gradient(ellipse at 55% 54%, rgba(36,37,72,0.04) 47%, rgba(25,16,52,0.8) 95%);
 }
 .galaxy-bg-image {
@@ -80,6 +82,43 @@ body, html {
   border-radius: 31%/47%;
   transition: opacity 0.7s;
   user-select: none;
+}
+
+/* Nebula particle overlay: slightly behind stars for layered effect */
+#galaxy-nebula {
+  z-index: 2 !important;
+  filter: blur(19px) saturate(1.6) brightness(0.99);
+  pointer-events: none;
+  mix-blend-mode: lighten;
+}
+
+/* Main interactive galaxy stars layer */
+#galaxy-stars {
+  z-index: 3 !important;
+  pointer-events: auto;
+  user-select: none;
+}
+
+/* Shooting stars: trails on top but never block UI */
+#galaxy-shooting-stars {
+  z-index: 7 !important;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* Make sure overlays do not block UI/glassmorphic foreground */
+.devarena-root,
+.glass-bg,
+.main-content-glass,
+.sidebar-glass,
+.header-glass {
+  position: relative;
+  z-index: 10;
+}
+
+/* Responsive Mobile for background overlays */
+@media (max-width: 700px) {
+  .galaxy-bg-image { width: 135vw; min-width: 200px; border-radius: 32%/46%; }
 }
 /* For extra dark/light theme - slightly tune blend on root */
 [data-theme="dark"] .galaxy-bg-image-blend { background: radial-gradient(ellipse at 56% 54%, rgba(21,19,46,0.08) 42%, rgba(13,8,34,0.89) 98%); }
