@@ -7,48 +7,48 @@
 
   --bg-primary: #f7f9ff;
   --bg-secondary: #e9ecef;
-  --card-glass: rgba(255,255,255,0.22);      /* +opacity for more readable glass */
-  --card-glass-solid: rgba(255,255,255,0.32);
-  --glass-border: 1.5px solid rgba(60, 80, 200, 0.19);
-  --glass-border-strong: 2px solid rgba(120,170,255,0.22);
-  --shadow-glass: 0px 4px 32px 4px rgba(30,38,70,0.17), 0 1.5px 16px 3px rgba(130,130,240,0.12);
+  --card-glass: rgba(255,255,255,0.28);      /* ↑Strong opacity for optimal glass readability */
+  --card-glass-solid: rgba(255,255,255,0.43); /* ↑Strong opacity for overlays/modals */
+  --glass-border: 1.5px solid rgba(60, 80, 200, 0.23);
+  --glass-border-strong: 2px solid rgba(120,170,255,0.29);
+  --shadow-glass: 0px 6px 36px 6px rgba(30,38,70,0.19), 0 1.5px 16px 4px rgba(130,130,240,0.16); /* ↑Depth */
 
   --text-primary: #23274d;
   --text-secondary: #646cff;
   --text-contrast: #111328;
-  --text-shadow-strong: 0 2.5px 8px rgba(60,70,110,0.35), 0 1.5px 1.5px rgba(205,219,255,0.12);
-  --text-shadow-white: 0 1.5px 7px #fff3, 0 1.5px 1.5px #a1baff22;
+  --text-shadow-strong: 0 2.5px 12px rgba(60,70,110,0.47), 0 2px 2px rgba(205,219,255,0.22); /* ↑Stronger */
+  --text-shadow-white: 0 2px 11px #fff7, 0 2.5px 5px #a1baff55; /* ↑Stronger white pop */
   --border-color: #c7e5ff;
   --button-bg: var(--primary);
-  --button-bg-glass: rgba(58,134,255,0.83);
+  --button-bg-glass: rgba(58,134,255,0.93);
   --button-text: #ffffff;
   --badge-gold: #ffe980;
   --badge-silver: #cdcdcd;
   --badge-bronze: #e89753;
-  --glass-backdrop-blur: blur(18px);
+  --glass-backdrop-blur: blur(23px); /* ↑More blur default for glass */
 }
 
 [data-theme="dark"] {
   --bg-primary: #181c24;
   --bg-secondary: #1f2340;
-  --card-glass: rgba(28,22,38,0.59);
-  --card-glass-solid: rgba(16,22,33,0.82);
-  --glass-border: 1.5px solid rgba(100,120,240,0.19);
-  --glass-border-strong: 2px solid rgba(100,160,255,0.16);
-  --shadow-glass: 0px 4px 32px 7px rgba(12,10,30,0.27), 0 2.5px 11px 2px rgba(56,88,233,0.09);
+  --card-glass: rgba(28,22,38,0.66);                /* ↑Glass opacity for dark overlays */
+  --card-glass-solid: rgba(16,22,33,0.91);          /* ↑Solid overlay backdrop strength */
+  --glass-border: 1.5px solid rgba(100,120,240,0.22);
+  --glass-border-strong: 2px solid rgba(100,160,255,0.21);
+  --shadow-glass: 0px 6px 40px 10px rgba(12,10,30,0.32), 0 4px 19px 4px rgba(56,88,233,0.17);
   --text-primary: #e9ecff;
   --text-secondary: #7eb2ff;
   --text-contrast: #fff;
-  --text-shadow-strong: 0 2.5px 9px #123b90b6, 0 1.5px 2.5px #bedaee30;
-  --text-shadow-white: 0 1.5px 7px #ffffff13, 0 2px 2px #c3eeff25;
+  --text-shadow-strong: 0 2.5px 15px #123b90fa, 0 2.5px 3px #bedaee52;
+  --text-shadow-white: 0 2px 9px #ffffff39, 0 2.5px 2.5px #c3eeff60;
   --border-color: #24296b;
   --button-bg: #01215c;
-  --button-bg-glass: rgba(38,68,180,0.93);
+  --button-bg-glass: rgba(38,68,180,0.98);
   --button-text: #ffe980;
   --badge-gold: #fffaa0;
   --badge-silver: #bbbbbb;
   --badge-bronze: #deb887;
-  --glass-backdrop-blur: blur(23px);
+  --glass-backdrop-blur: blur(28px);               /* ↑Stronger blur for night readability */
 }
 
 body, html {
@@ -156,6 +156,14 @@ Main galaxy image (see .galaxy-bg-image) must remain crisp -- no blur or masking
 }
 
 /* Main overlay root for all modals, onboarding, dropdowns */
+/* =====================================================================
+   MODALS, OVERLAYS, and INPUTS:
+   Always assign a z-index > 999 to keep over all bg/parallax/animation.
+   Use high glassmorphic background, extra blur/opacity.
+   Strong text-shadow makes overlays readable even during heavy motion.
+   Never mix overlay glass with .glass-bg or main root.
+   Only overlays get the following effects.
+   ===================================================================== */
 .onboarding-overlay-glass,
 [role="dialog"],
 .modal-glass,
@@ -166,40 +174,47 @@ input[type="text"].input-glass,
 input[type="email"].input-glass,
 input[type="password"].input-glass,
 textarea.input-glass {
-  z-index: 1001 !important;
+  z-index: 2100 !important; /* ↑Always above 2K for overlays on all devices */
   position: relative;
-  /* GLASSMORPHIC - boost clarity for overlays atop galaxy */
-  box-shadow: 0 5px 55px 7px #18173dce, 0 2.5px 14px #637eee22;
+  /* GLASSMORPHIC - super clarity: deep backdrop blur, layered opacity */
+  box-shadow: 0 7px 66px 17px #18173ded, 0 5px 22px #637eee44;
   border-radius: 1.55rem;
-  /* never apply background blur on root, only on overlays */
   filter: none;
-  /* text: ensure ultra-crisp and strong shadow for high motion backgrounds */
+  /* text: ultra-crisp, triple shadow for galaxy BG movement/contrast */
   color: var(--text-contrast);
-  text-shadow: 0 2.5px 12px #fff, var(--text-shadow-strong), 0 1.5px 4px #1a125e80;
+  text-shadow: 0 4px 21px #fff, var(--text-shadow-strong), 0 2.5px 10px #1a125ec0;
+  outline: 2.5px solid #fff9 !important;
+  background: var(--card-glass-solid) !important; /* force solid overlay for legibility */
+  /* ♫ Maintain overlay readability regardless of animation in galaxy BG ♫ */
 }
 
 /* Onboarding modal pops above all */
 .onboarding-overlay-glass {
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(27px) brightness(0.95) saturate(1.07);
-  background: linear-gradient(115deg,rgba(23,16,42,0.55) 22%,rgba(54,19,110,0.33) 81%);
-  display: flex; align-items: center; justify-content: center;
+  z-index: 3000 !important; /* Highest overlay (for pop-up welcome) */
+  /* Strong glassmorphic blur/maximize clarity */
+  backdrop-filter: blur(38px) brightness(0.93) saturate(1.11);
+  background: linear-gradient(115deg,rgba(23,16,42,0.58) 22%,rgba(54,19,110,0.39) 81%);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
 }
 
-/* Onboarding modal itself */
+/* Onboarding modal itself - foreground box in overlay */
 .onboarding-modal-glass {
   background: var(--card-glass-solid);
   border: var(--glass-border-strong);
   border-radius: 2.1rem;
   padding: 2.6rem 2.8rem;
-  box-shadow: 0 5.5px 44px 13px #2e026397, 0 1px 25px #0f100f23;
+  z-index: 3050 !important; /* One layer up from overlay */
+  box-shadow: 0 8px 65px 21px #2e0263e5, 0 4px 34px #0f100f44;
   color: var(--text-primary);
-  filter: var(--glass-backdrop-blur);
-  backdrop-filter: var(--glass-backdrop-blur);
-  z-index: 1002;
+  /* Strongest readable blur for onboarding, never mask actual root bg */
+  filter: blur(0.09px) brightness(1.09) contrast(1.14);
+  backdrop-filter: blur(28px) brightness(1.1) saturate(1.16);
   font-size: 1.19rem;
-  text-shadow: var(--text-shadow-white);
+  text-shadow: var(--text-shadow-white), 0 3px 11px #33363360;
   min-width: 330px; max-width: 96vw;
 }
 
@@ -246,6 +261,7 @@ textarea.input-glass
 }
 
 /* Notification Toaster (popup, always readable) */
+/* Notification Toaster (popup, always readable above everything else, even overlays) */
 .notification-toaster-glass {
   position: fixed;
   bottom: 2.2rem; right: 2.5rem;
@@ -253,16 +269,17 @@ textarea.input-glass
   color: var(--text-contrast);
   border: var(--glass-border-strong);
   border-radius: 1.3rem;
-  /* Raise shadow + add border-light to pop-out atop animated bg */
-  box-shadow: 0 9.5px 40px #191b48ab, 0 1px 22px #7bd9ff2e, 0 7px 14px #fff6, 0 1px 22px #3ac0ff18; 
+  /* ↑Max shadow, for legible popup above all animated layers */
+  box-shadow: 0 13.5px 52px #191b48f6, 0 4px 26px #7bd9ff33, 0 9px 22px #fff8, 0 2px 32px #3ac0ff25; 
   font-weight: 700;
-  font-size: 1.07rem;
+  font-size: 1.09rem;
   padding: 1.27rem 2.2rem;
-  opacity: 0.975;
-  text-shadow: 0 3.2px 12px #fff, 0 2px 10px #fff9, var(--text-shadow-strong);
+  opacity: 0.99;
+  text-shadow: 0 4.2px 14px #fff, 0 3px 12px #fff9, var(--text-shadow-strong);
   transition: opacity 0.6s, transform 0.47s cubic-bezier(.23,1.18,.68,1.01);
-  z-index: 2100 !important; /* raised above all galaxy levels */
+  z-index: 3001 !important; /* ↑Always above onboarding overlay and all UI!! */
   pointer-events: auto;
+  outline: 2px solid #fff9;
 }
 
 /* MODALS, overlays, dropdowns */
@@ -324,25 +341,29 @@ input.input-glass:focus, select.input-glass:focus, textarea.input-glass:focus
   z-index: 1900;
 }
 
-/* -- Sidebar/Navigation/Panel -- */
+/* -- Sidebar/Navigation/Panel --
+   Sidebar remains above all galaxy/animation (z-index>100),
+   but below modal overlays (z-index<2100).
+   Always keep text readable with strong shadow.
+*/
 .sidebar-glass {
   position: fixed;
   top: 0; left: 0;
   height: 100vh;
   width: 176px;
-  background: linear-gradient(153deg, var(--card-glass-solid) 82%, rgba(38,58,120,0.08) 100%);
+  background: linear-gradient(153deg, var(--card-glass-solid) 82%, rgba(38,58,120,0.15) 100%);
   border-right: var(--glass-border-strong);
-  box-shadow: 14px 0 42px #211654a3, 0 0.5px 21px #53b0f132;
-  z-index: 111 !important;
+  box-shadow: 14px 0 48px #211654b7, 0 1.5px 31px #53b0f155;
+  z-index: 120 !important; /* ↑Above all galaxy anim (but below overlay==2100) */
   padding-top: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* Blur for clarity atop animated galaxy */
-  backdrop-filter: blur(15px) saturate(1.10) brightness(1.05);
-  filter: blur(0.11px);
+  /* Extra blur for moving BG, see comment above */
+  backdrop-filter: blur(17px) saturate(1.18) brightness(1.07);
+  filter: blur(0.2px);
   color: var(--text-primary);
-  text-shadow: 0 2.5px 12px #fff9, var(--text-shadow-white);
+  text-shadow: 0 3px 13px #fff9, var(--text-shadow-white);
   outline: 2.7px solid #2221342b;
   outline-offset: -6px;
 }
@@ -388,6 +409,10 @@ input.input-glass:focus, select.input-glass:focus, textarea.input-glass:focus
 }
 
 /* -- Header/Profile Bar -- */
+/* -- Header/Profile Bar --
+   z-index 120 always above sidebar and main but below overlays.
+   Strong shadows, glass, comments for future dev clarity.
+*/
 .header-glass {
   display: flex;
   justify-content: space-between;
@@ -396,9 +421,9 @@ input.input-glass:focus, select.input-glass:focus, textarea.input-glass:focus
   background: var(--card-glass-solid);
   border-bottom: var(--glass-border-strong);
   border-radius: 0 0 2.2rem 2rem;
-  z-index: 120 !important; /* strong layer promote for clarity above sparkle/bg */
-  box-shadow: 0 7px 37px #20187f67, 0 1px 16px #52237a93, var(--shadow-glass);
-  text-shadow: 0 2.5px 10px #fff7, var(--text-shadow-strong);
+  z-index: 125 !important; /* slightly above sidebar, below overlays */
+  box-shadow: 0 11px 47px #20187f73, 0 2px 26px #52237a93, var(--shadow-glass);
+  text-shadow: 0 4px 12px #fff9, var(--text-shadow-strong);
 }
 .profile-glass {
   display: flex;
@@ -461,6 +486,12 @@ input.input-glass:focus, select.input-glass:focus, textarea.input-glass:focus
 }
 
 /* -- Feature Cards/Widgets/Surface -- */
+/* Main feature cards/widgets/panels ("glass" effect):
+   - Keep above all galaxy bg (z-index 50+)
+   - glass-backdrop-blur gives depth, visual separation in motion
+   - Strong text-shadow for ultra-readability
+   - Do NOT raise above 999 (leave z-index for overlays/modals)
+*/
 .dashboard-glass,
 .achievements-glass,
 .stats-glass,
@@ -475,17 +506,15 @@ input.input-glass:focus, select.input-glass:focus, textarea.input-glass:focus
 .notfound-glass {
   background: var(--card-glass-solid);
   border: var(--glass-border);
-  box-shadow: 0 5.5px 60px 11px #202456be, 0 2.5px 40px #1e2edd22, var(--shadow-glass);
+  box-shadow: 0 7px 80px 13px #202456f1, 0 6.5px 44px #1e2edd33, var(--shadow-glass);
   filter: var(--glass-backdrop-blur);
   backdrop-filter: var(--glass-backdrop-blur);
   border-radius: 2.55rem;
   color: var(--text-primary);
-  text-shadow: 0 2.5px 16px #fff8, 0 1.5px 6px #bccbfd33, var(--text-shadow-white);
+  text-shadow: 0 3.5px 19px #fffaf4, 0 2.5px 7px #bccbfd55, var(--text-shadow-white);
   margin-bottom: 2.11rem;
   padding: 2.7rem 2.3rem 2rem 2.5rem;
-  z-index: 50;
-  /* For extra visibility of important cards above bg animation
-     (note: never blur background behind card root directly!) */
+  z-index: 55; /* ↑Above bg/galaxy, below sidebar/header (120), much below overlays */
   position: relative;
 }
 
