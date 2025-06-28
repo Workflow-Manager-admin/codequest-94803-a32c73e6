@@ -6,9 +6,12 @@ function NotificationToaster() {
   const [active, setActive] = useState(false);
 
   useEffect(() => {
-    // Simulate websocket or long-poll for notifications
-    const ws = new window.EventSource && new EventSource("/api/notifications");
-    if (ws) {
+    // Use EventSource (Server-Sent Events) only if implemented & available
+    let ws = null;
+    if (typeof window !== "undefined" && "EventSource" in window) {
+      // IMPORTANT: Ensure the backend actually supports this endpoint before using it
+      // If real-time notifications are not yet implemented, comment this block below.
+      ws = new EventSource("/api/notifications");
       ws.onmessage = (event) => {
         setActive(true);
         setNotifications((prev) => [
@@ -19,7 +22,9 @@ function NotificationToaster() {
       };
     }
     // Cleanup
-    return () => ws && ws.close();
+    return () => {
+      if (ws) ws.close();
+    };
   }, []);
 
   if (!active || notifications.length === 0) return null;
