@@ -258,16 +258,7 @@ function GalaxyBackground() {
       position: "fixed",
       inset: 0
     }}>
-      {/* Layer 1: Main static image, softly blended - never add blur here! */}
-      <div className="galaxy-bg-image-blend">
-        <img
-          src={galaxyBg}
-          alt="Galaxy Milky Way background"
-          draggable={false}
-          aria-hidden="true"
-          className="galaxy-bg-image"
-        />
-      </div>
+      {/* Layer 1: Galaxy background now set via CSS only. The .galaxy-bg-root provides the image as a true background. */}
 
       {/* Layer 2: Animated Nebula/electric clouds (blur, purple/blue, low opacity) */}
       <Particles

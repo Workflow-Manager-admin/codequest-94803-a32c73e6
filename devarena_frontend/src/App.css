@@ -68,42 +68,35 @@ Main galaxy image (see .galaxy-bg-image) must remain crisp -- no blur or masking
 
 /* Galaxy/Universe animated bg container */
 .galaxy-bg-root {
-  /* Never apply blur/backdrop-filter/masking here! Only pointer-events:none, fixed z=0. */
   pointer-events: none;
   position: fixed;
   inset: 0;
-  min-height: 100vh; min-width: 100vw;
   z-index: 0;
   width: 100vw;
   height: 100vh;
-  top: 0; left: 0;
-  background: linear-gradient(115deg,rgba(17,18,40,0.44) 5%,rgba(27,11,63,0.21) 85%);
+  min-width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  padding: 0 !important;
+  margin: 0 !important;
+  /* Set galaxy image as full, true background */
+  background-image: url('./assets/20250628_154453_galaxt_.png');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  /* Remove any overlay gradients from previous versions */
+  box-shadow: none;
+  border: none;
 }
 
 .galaxy-bg-image-blend {
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  width: 100vw; height: 100vh;
-  z-index: 1;
-  display: flex; align-items: center; justify-content: center;
-  overflow: hidden;
-  background: radial-gradient(ellipse at 55% 54%, rgba(36,37,72,0.13) 31%, rgba(25,16,52,0.89) 97%);
+  display: none !important;
 }
+
 .galaxy-bg-image {
-  width: 80vw;
-  max-width: 1600px;
-  max-height: 87vh;
-  min-width: 360px;
-  object-fit: cover;
-  opacity: 0.89;
-  /* KEEP GALAXY SHARP: No blur filter here! Only subtle contrast/color for vibrancy */
-  /* To adjust vibrancy: ONLY use brightness/contrast/saturate (no blur), preserve crisp galaxy image */
-  filter: brightness(1.13) contrast(1.14) saturate(1.22) drop-shadow(0 20px 42px #0b0c2e84);
-  mix-blend-mode: lighten;
-  border-radius: 32%/47%;
-  transition: opacity 0.7s;
-  user-select: none;
+  display: none !important;
 }
 
 #galaxy-nebula {
