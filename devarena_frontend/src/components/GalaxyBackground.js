@@ -1,6 +1,6 @@
 import React from "react";
 import Particles from "react-tsparticles";
-import galaxyBg from "../assets/galaxy_bg.png";
+import galaxyBg from "../assets/20250628_153355_galaxt_.png";
 
 /**
  * PUBLIC_INTERFACE
