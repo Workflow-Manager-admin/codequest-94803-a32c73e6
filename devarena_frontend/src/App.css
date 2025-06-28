@@ -87,8 +87,9 @@ body, html {
   max-height: 87vh;
   min-width: 360px;
   object-fit: cover;
-  opacity: 0.78;
-  filter: blur(1.7px) brightness(1.02) contrast(1.10) saturate(1.16) drop-shadow(0 20px 42px #0b0c2e84);
+  opacity: 0.89;
+  /* Remove/reduce blur for sharp galaxy, keep vibrancy & pop */
+  filter: brightness(1.13) contrast(1.14) saturate(1.22) drop-shadow(0 20px 42px #0b0c2e84);
   mix-blend-mode: lighten;
   border-radius: 32%/47%;
   transition: opacity 0.7s;

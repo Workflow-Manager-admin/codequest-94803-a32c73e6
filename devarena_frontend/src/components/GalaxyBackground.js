@@ -255,6 +255,7 @@ function GalaxyBackground() {
     <div className="galaxy-bg-root" style={{ pointerEvents: "none" }}>
       {/* Layer 1: Main static image, softly blended */}
       <div className="galaxy-bg-image-blend">
+        {/* The galaxy-bg-image class is now sharp & clear; do not apply further blur/filter here */}
         <img
           src={galaxyBg}
           alt="Galaxy Milky Way background"
