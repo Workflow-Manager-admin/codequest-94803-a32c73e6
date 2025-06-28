@@ -123,12 +123,16 @@ body, html {
 
 
 /* === LAYOUT & OVERLAY Z-INDEX LAYERS === */
+/* Fix: Ensure app root is above all galaxy backgrounds (z-index > bg), add isolation for stacking context */
 .devarena-root {
   position: relative;
-  z-index: 10;
+  z-index: 20;   /* was 10, increase above all galaxy bg layers */
+  isolation: isolate; /* prevent backdrop-filter from escaping overlay/cards */
 }
 
-.glass-bg,
+/* Glass panels/overlays/cards/sidebars- add here, but NOT to App root! */
+/* Remove: .glass-bg from here - do not apply glass blur to app root! */
+/* Only overlays/cards/sidebars have glass effect, not root/background */
 .main-content-glass,
 .sidebar-glass,
 .header-glass {
@@ -177,11 +181,11 @@ textarea.input-glass {
 }
 
 /* Cards, panels, surface elements */
-[class*="card-glass"], 
-[class*="glass"], 
-input.input-glass, 
-select.input-glass, 
-textarea.input-glass 
+[class*="card-glass"],
+[class*="-glass"]:not(.glass-bg):not(.devarena-root),
+input.input-glass,
+select.input-glass,
+textarea.input-glass
 {
   background: var(--card-glass);
   border: var(--glass-border);
@@ -189,11 +193,19 @@ textarea.input-glass
   box-shadow: var(--shadow-glass),
     0 2.5px 16px 1px rgba(91,103,255,0.13);
   color: var(--text-primary);
-  filter: var(--glass-backdrop-blur);
+  filter: var(--glass-backdrop-blur);      /* ensure blur applies only here */
   backdrop-filter: var(--glass-backdrop-blur);
   position: relative;
   z-index: 31;
   transition: background 0.35s, color 0.22s, border 0.38s, box-shadow 0.33s;
+}
+
+/* .glass-bg intentionally NO blur, purely a base for stacking context
+   (app root: never blurry!) */
+.glass-bg {
+  background: transparent !important;
+  filter: none !important;
+  backdrop-filter: none !important;
 }
 
 .main-content-glass {
