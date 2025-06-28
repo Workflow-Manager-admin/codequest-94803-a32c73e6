@@ -256,6 +256,11 @@ function GalaxyBackground() {
       {/* Layer 1: Main static image, softly blended */}
       <div className="galaxy-bg-image-blend">
         {/* The galaxy-bg-image class is now sharp & clear; do not apply further blur/filter here */}
+        {/* 
+          The main galaxy background image is kept CRISP.
+          Do NOT add any blur or strong filter here—blur only appears on glass overlays/cards.
+          If you want a blurry effect on cards, apply CSS blur/backdrop-filter to overlays, NOT this image!
+        */}
         <img
           src={galaxyBg}
           alt="Galaxy Milky Way background"

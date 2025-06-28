@@ -88,7 +88,8 @@ body, html {
   min-width: 360px;
   object-fit: cover;
   opacity: 0.89;
-  /* Remove/reduce blur for sharp galaxy, keep vibrancy & pop */
+  /* KEEP GALAXY SHARP: No blur filter here! Only subtle contrast/color for vibrancy */
+  /* To adjust vibrancy: ONLY use brightness/contrast/saturate (no blur), preserve crisp galaxy image */
   filter: brightness(1.13) contrast(1.14) saturate(1.22) drop-shadow(0 20px 42px #0b0c2e84);
   mix-blend-mode: lighten;
   border-radius: 32%/47%;
