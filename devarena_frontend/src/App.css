@@ -58,8 +58,17 @@ body, html {
   font-family: inherit;
 }
 
+/* 
+================= CRITICAL LAYERING/BLUR SAFETY ===========================
+Never apply blur or masking overlays to body, html, .devarena-root, .glass-bg, or .galaxy-bg-root.
+Only overlays/panels/cards/popups/sidebars can use blur/backdrop-filter.
+Main galaxy image (see .galaxy-bg-image) must remain crisp -- no blur or masking on background root.
+===========================================================================
+*/
+
 /* Galaxy/Universe animated bg container */
 .galaxy-bg-root {
+  /* Never apply blur/backdrop-filter/masking here! Only pointer-events:none, fixed z=0. */
   pointer-events: none;
   position: fixed;
   inset: 0;
@@ -123,7 +132,11 @@ body, html {
 
 
 /* === LAYOUT & OVERLAY Z-INDEX LAYERS === */
-/* Fix: Ensure app root is above all galaxy backgrounds (z-index > bg), add isolation for stacking context */
+/* 
+    Never add any overlay, backdrop, or blur to this root.
+    All global/modal overlays must be added as modals/panels above, never here.
+    This is the React app's stacking context. z-index > bg.
+*/
 .devarena-root {
   position: relative;
   z-index: 20;   /* was 10, increase above all galaxy bg layers */
@@ -200,12 +213,17 @@ textarea.input-glass
   transition: background 0.35s, color 0.22s, border 0.38s, box-shadow 0.33s;
 }
 
-/* .glass-bg intentionally NO blur, purely a base for stacking context
-   (app root: never blurry!) */
+/* .glass-bg = Never blurry overlay! 
+   Critical: Do NOT add blur, MASK, or global backdrop here; 
+   it's only a stacking context or safety wrapper for future-proofing root.
+   All blur/mask must be isolated to overlays/cards/etc. only! */
 .glass-bg {
   background: transparent !important;
   filter: none !important;
   backdrop-filter: none !important;
+  box-shadow: none !important;
+  /* Never cover app with full overlay; pointer events default/pass-through. */
+  pointer-events: auto;
 }
 
 .main-content-glass {
