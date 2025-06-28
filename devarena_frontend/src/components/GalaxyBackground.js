@@ -1,6 +1,8 @@
 import React, { useRef } from "react";
 import Particles from "react-tsparticles";
+// Only use the latest attached galaxy background image. Remove/comment all previous galaxy backgrounds.
 import galaxyBg from "../assets/20250628_154453_galaxt_.png";
+// import galaxyBgOld from "../assets/20250628_153355_galaxt_.png"; // Deprecated: previous image, no longer used.
 
 /**
  * PUBLIC_INTERFACE
