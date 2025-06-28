@@ -1,127 +1,198 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import Particles from "react-tsparticles";
 
-// PUBLIC_INTERFACE
 /**
  * GalaxyBackground
- * ---------------
- * Renders the dynamic layered galaxy background using tsParticles, fully matching the reference palette/style/motifs.
- * Features:
- *   - Swirling nebulae (purple, blue, magenta, teal, soft glow)
- *   - Layered, blinking stars (dense below, variance in hue/size)
- *   - Shooting stars (random, realistic, streaking angles)
- *   - Depth fog and cosmic dust (large, faint, slow floaters)
- *   - Responsive, z-index-safe: entire app overlays cleanly, never masked/blurry at root
- * Palette/Motifs: Deep navy #120e24, rich purple #6a3de2, electric blue #39cafc, pink-magenta #e965c6, teal #56ffe0,
- *                 pale amber #ffe980, white. Swirling nebula left/upper-right, starfield bottom, luminous halos.
+ * ================
+ * - Fully dynamic, multi-layer cosmic universe simulation as animated app background.
+ * - Inspired by attached reference image and style guide: swirling nebulae, color gradients, drifting starfields,
+ *   random shooting stars, and interactive cosmic motes, with overlay-safe voids.
+ * - Uses tsParticles for high-performance layer compositing and effects.
+ *
+ * Palette:
+ *   Deep Black:   #06071a | Overlay Void: #101020
+ *   Nebula Violet: #a633ec, #8532b7, #cc47ff
+ *   Electric Blue: #30d2fa, #37a9ff, #4fc3f7
+ *   Magenta:      #f92af7, #e017d6, #c030b0
+ *   Turquoise:    #39e6f2, #42b6d7
+ *   Star:         #fffceb, #ffe06b, #fff
+ *   Glows:        #ff9880, #ffc1a6, #b393e6
+ *   Shadow cloud: #21223f
+ * 
+ * Motifs: Swirling nebula fog, planet glow zones, twinkling starfield, shooting stars, deep black/blue voids for UI
  */
-function GalaxyBackground() {
-  const particlesNebula = useRef();
-  const particlesStars = useRef();
-  const particlesFog = useRef();
-  const particlesShooting = useRef();
 
-  // Nebula - swirling, slow, overlapping, wide, vibrant, glowing (mostly purple, blue, magenta, teal, with white/amber halos)
+const COLORS = {
+  black: "#06071a",
+  void: "#101020",
+  violet: "#a633ec",
+  deepPurple: "#8532b7",
+  magenta: "#f92af7",
+  magentaDeep: "#c030b0",
+  nebulaBlue: "#30d2fa",
+  brightBlue: "#37a9ff",
+  turquoise: "#39e6f2",
+  cloudGray: "#21223f",
+  starYellow: "#ffe06b",
+  starWhite: "#fffceb",
+  warmGlow: "#ff9880",
+  rimGlow: "#b393e6"
+};
+
+function GalaxyBackground() {
+  const nebulaRef = useRef();
+  const starsRef = useRef();
+  const shootingRef = useRef();
+  const motesRef = useRef();
+
+  // NEBULA swirling magenta/violet/blue cloud layer (uses slow noise for motion, big gradients, strong glow)
   const nebulaOptions = {
     fullScreen: { enable: false },
     background: { color: "transparent" },
     detectRetina: true,
     zLayers: 1,
     particles: {
-      number: { value: 23, density: { enable: true, area: 1450 } },
-      color: { value: [
-        "#6a3de2",
-        "#39cafc",
-        "#e965c6",
-        "#56ffe0",
-        "#ffe980",
-        "#eae1ff",
-        "#ffd5f8",
-        "#b393e6",
-      ] },
+      number: { value: 16, density: { enable: true, area: 2100 } },
+      color: {
+        value: [
+          COLORS.violet,
+          COLORS.magenta,
+          COLORS.nebulaBlue,
+          COLORS.brightBlue,
+          COLORS.turquoise,
+          COLORS.deepPurple,
+          COLORS.magentaDeep,
+          COLORS.warmGlow
+        ]
+      },
       opacity: {
-        value: 0.15,
-        random: { enable: true, minimumValue: 0.09 },
-        animation: { enable: true, speed: 0.7, minimumValue: 0.062, sync: false },
+        value: 0.16,
+        random: { enable: true, minimumValue: 0.08 },
+        animation: {
+          enable: true,
+          speed: 0.2,
+          minimumValue: 0.05,
+          sync: false
+        }
       },
       size: {
-        value: 88,
-        random: { enable: true, minimumValue: 34 },
-        animation: { enable: true, speed: 7.1, minimumValue: 25, sync: false }
+        value: 148,
+        random: { enable: true, minimumValue: 52 },
+        animation: {
+          enable: true,
+          speed: 7.5,
+          minimumValue: 40,
+          sync: false
+        }
       },
       move: {
         enable: true,
-        speed: 0.11,
+        speed: 0.07,
         direction: "none",
         random: true,
         straight: false,
-        outModes: "out"
+        outModes: "out",
+        noise: {
+          enable: true,
+          delay: { min: 0.22, max: 0.65 }
+        }
       },
       shape: { type: "circle" },
       links: { enable: false },
-      shadow: { enable: true, blur: 61, color: "#572d93" }
+      shadow: {
+        enable: true,
+        blur: 95,
+        color: COLORS.violet
+      }
+      // Blendmode+blur for soft nebulae, but non-blurry root
     }
   };
 
-  // Starfield - blinking, small, various colors, dense below (interactive)
+  // STARFIELD layer: Drifting, gentle parallax, responsive star/interactivity glow
   const starsOptions = {
     fullScreen: { enable: false },
     background: { color: "transparent" },
     detectRetina: true,
-    zLayers: 2,
+    zLayers: 3,
     particles: {
-      number: { value: 170, density: { enable: true, area: 880 } },
-      color: { value: [
-        "#fff",
-        "#ffe980",
-        "#a2caff",
-        "#e965c6",
-        "#39cafc",
-        "#ffd5f8"
-      ] },
+      number: { value: 340, density: { enable: true, area: 1500 } },
+      color: {
+        value: [
+          COLORS.starWhite,
+          COLORS.starYellow,
+          COLORS.rimGlow,
+          COLORS.nebulaBlue,
+          COLORS.magenta,
+          COLORS.brightBlue,
+          "#fff"
+        ]
+      },
       opacity: {
-        value: 0.9,
-        random: { enable: true, minimumValue: 0.22 },
-        animation: { enable: true, speed: 1.15, minimumValue: 0.13, sync: false }
+        value: 0.81,
+        random: { enable: true, minimumValue: 0.14 },
+        animation: {
+          enable: true,
+          speed: 1.6,
+          minimumValue: 0.041,
+          sync: false
+        }
       },
       size: {
-        value: 1.7,
-        random: { enable: true, minimumValue: 0.63 },
-        animation: { enable: true, speed: 1.1, minimumValue: 0.34, sync: false }
+        value: 1.5,
+        random: { enable: true, minimumValue: 0.41 },
+        animation: {
+          enable: true,
+          speed: 2.1,
+          minimumValue: 0.25,
+          sync: false
+        }
       },
       move: {
         enable: true,
-        speed: 0.11,
+        speed: 0.12,
         direction: "none",
         random: true,
-        outModes: "out"
+        straight: false,
+        outModes: "out",
+        parallax: {
+          enable: true,
+          smooth: 15,
+          force: 28
+        }
       },
       shape: { type: ["circle", "star"] },
       twinkle: {
         particles: {
           enable: true,
-          frequency: 0.21,
+          frequency: 0.18,
           color: { value: "#fff" }
         }
       },
-      stroke: { width: 0 }
+      stroke: { width: 0 },
+      links: { enable: false }
     },
     interactivity: {
       detectsOn: "window",
       events: {
-        onHover: { enable: true, mode: ["repulse", "bubble"] },
-        onClick: { enable: true, mode: ["push", "bubble"] },
+        onHover: {
+          enable: true,
+          mode: ["repulse", "bubble"]
+        },
+        onClick: {
+          enable: true,
+          mode: ["push", "bubble"]
+        },
         resize: true
       },
       modes: {
-        repulse: { distance: 105, duration: 0.41 },
-        bubble: { distance: 85, duration: 0.36, size: 2.7, opacity: 1 },
-        push: { quantity: 3 }
+        repulse: { distance: 111, duration: 0.44 },
+        bubble: { distance: 99, duration: 0.36, size: 4, opacity: 1, color: COLORS.nebulaBlue },
+        push: { quantity: 4 }
       }
     }
   };
 
-  // Shooting Stars - occasional, bright, diagonal, multi-color (active galaxy sparkle)
+  // SHOOTING STARS: Random, flashy diagonal meteors (screen blend). Appears several times per minute, mix of angles/colors
   const shootingOptions = {
     fullScreen: { enable: false },
     background: { color: "transparent" },
@@ -131,105 +202,136 @@ function GalaxyBackground() {
     emitters: [
       {
         direction: "top-right",
-        rate: { quantity: 1, delay: 2.2 },
+        rate: { quantity: 1, delay: { min: 3.1, max: 6.1 } }, // every ~4sec random
         size: { width: 0, height: 0 },
-        position: { x: 7, y: 96 },
+        position: { x: 9, y: 98 },
         particles: {
           move: {
             enable: true,
             direction: "top-right",
-            speed: { min: 13, max: 21 },
+            speed: { min: 13, max: 22 },
             straight: true,
             outModes: { default: "destroy" }
           },
           opacity: {
-            value: { min: 0.49, max: 0.77 },
-            animation: { enable: true, startValue: "max", count: 1, speed: 2.3 }
+            value: { min: 0.49, max: 0.92 },
+            animation: { enable: true, startValue: "max", count: 1, speed: 2.8 }
           },
           size: {
-            value: { min: 1.2, max: 2 },
+            value: { min: 1.5, max: 2.6 },
             animation: { enable: true, startValue: "max", count: 1, speed: 6 }
           },
-          color: { value: ["#ffe980", "#e965c6", "#39cafc", "#fff"] },
+          color: { value: [COLORS.starWhite, COLORS.starYellow, COLORS.magenta, COLORS.brightBlue] },
           shape: { type: "line" },
-          life: { duration: { sync: true, value: 0.88 }, count: 1 },
+          life: { duration: { sync: true, value: 0.96 }, count: 1 },
           trail: {
             enable: true,
-            length: 22,
-            fillColor: { value: "#251546" }
+            length: 30,
+            fillColor: { value: COLORS.void }
           }
         }
       },
       {
         direction: "top-left",
-        rate: { quantity: 1, delay: 4.3 },
+        rate: { quantity: 1, delay: { min: 6.6, max: 9.8 } },
         size: { width: 0, height: 0 },
-        position: { x: 93, y: 98 },
+        position: { x: 90, y: 97 },
         particles: {
           move: {
             enable: true,
             direction: "top-left",
-            speed: { min: 13, max: 19 },
+            speed: { min: 14, max: 19 },
             straight: true,
             outModes: { default: "destroy" }
           },
           opacity: {
-            value: { min: 0.43, max: 0.61 },
-            animation: { enable: true, startValue: "max", count: 1, speed: 1.9 }
+            value: { min: 0.41, max: 0.6 },
+            animation: { enable: true, startValue: "max", count: 1, speed: 2 }
           },
           size: {
-            value: { min: 1, max: 1.62 },
-            animation: { enable: true, startValue: "max", count: 1, speed: 5.3 }
+            value: { min: 1.3, max: 2.1 },
+            animation: { enable: true, startValue: "max", count: 1, speed: 5 }
           },
-          color: { value: ["#fff", "#6a3de2", "#ffe980"] },
+          color: { value: ["#fff", COLORS.violet, COLORS.nebulaBlue, COLORS.starYellow] },
           shape: { type: "line" },
-          life: { duration: { sync: true, value: 0.99 }, count: 1 },
+          life: { duration: { sync: true, value: 1.15 }, count: 1 },
           trail: {
             enable: true,
             length: 17,
-            fillColor: { value: "#120e24" }
+            fillColor: { value: COLORS.black }
           }
         }
       }
     ]
   };
 
-  // Cosmic Fog - large, faint orbs, ultra-blur, depth below nebula
-  const fogOptions = {
+  // INTERACTIVE MOTES - floating cosmic motes, faster, react to mouse/tap
+  const motesOptions = {
     fullScreen: { enable: false },
     background: { color: "transparent" },
+    zLayers: 6,
     detectRetina: true,
-    zLayers: 0,
     particles: {
-      number: { value: 7, density: { enable: true, area: 1770 } },
+      number: { value: 27, density: { enable: true, area: 970 } },
       color: {
         value: [
-          "#e9e4fd",
-          "#ffe980",
-          "#e965c6",
-          "#39cafc",
-          "#b393e6",
-          "#a2bfff"
+          COLORS.turquoise,
+          COLORS.brightBlue,
+          COLORS.magenta,
+          COLORS.rimGlow,
+          "#fff"
         ]
       },
-      opacity: { value: 0.068, random: { enable: true, minimumValue: 0.022 } },
+      opacity: {
+        value: 0.25,
+        random: { enable: true, minimumValue: 0.12 },
+        animation: {
+          enable: true,
+          speed: 1.1,
+          minimumValue: 0.08,
+          sync: false
+        }
+      },
       size: {
-        value: 170,
-        random: { enable: true, minimumValue: 70 },
-        animation: { enable: true, speed: 1.3, minimumValue: 48, sync: false }
+        value: 5.2,
+        random: { enable: true, minimumValue: 1.5 },
+        animation: {
+          enable: true,
+          speed: 1.9,
+          minimumValue: 0.92,
+          sync: false
+        }
       },
       move: {
         enable: true,
-        speed: 0.017,
+        speed: 0.16,
         direction: "none",
         random: true,
-        outModes: "out"
+        outModes: "out",
+        noise: {
+          enable: true,
+          delay: { min: 0.16, max: 0.45 }
+        }
       },
-      shape: { type: "circle" }
+      shape: { type: "circle" },
+      links: { enable: false }
+    },
+    interactivity: {
+      detectsOn: "window",
+      events: {
+        onHover: { enable: true, mode: ["bubble", "repulse"] },
+        onClick: { enable: true, mode: "repulse" },
+        resize: true
+      },
+      modes: {
+        bubble: { distance: 97, duration: 0.6, size: 12, opacity: 0.9 },
+        repulse: { distance: 120, duration: 0.41 }
+      }
     }
   };
 
-  // Compose all layers, tuned z-index, safe sizing
+  // PARTICLES INIT: (removed for react-tsparticles v1.x compatibility)
+
   return (
     <div
       className="galaxy-bg-root"
@@ -242,46 +344,33 @@ function GalaxyBackground() {
         height: "100vh",
         minWidth: "100vw",
         minHeight: "100vh",
-        background: "transparent"
+        background: `radial-gradient(ellipse at 61% 34%, rgba(12,16,61,0.52) 0%, rgba(6,7,26,0.91) 87%), ${COLORS.black}` // soft vignette
       }}
       aria-hidden="true"
       tabIndex={-1}
     >
-      {/* Layer 0: Depth cosmic fog/haze */}
-      <Particles
-        id="galaxy-fog"
-        options={fogOptions}
-        style={{
-          position: "fixed",
-          inset: 0,
-          width: "100vw",
-          height: "100vh",
-          filter: "blur(34px) brightness(1.12)",
-          zIndex: 1,
-          opacity: 0.55
-        }}
-        ref={particlesFog}
-      />
-      {/* Layer 1: Swirling nebula blobs */}
+
+      {/* Layer 1: Nebulae (swirling fog, prominent, blurred, colorful) */}
       <Particles
         id="galaxy-nebula"
-        options={nebulaOptions}
         style={{
           position: "fixed",
           inset: 0,
           width: "100vw",
           height: "100vh",
-          zIndex: 2,
-          filter: "blur(19px) saturate(1.6) brightness(0.93)",
-          mixBlendMode: "lighten",
-          pointerEvents: "none"
+          filter: "blur(17px) saturate(1.5) brightness(0.98)",
+          zIndex: 1,
+          pointerEvents: "none",
+          mixBlendMode: "lighter",
+          opacity: 0.85
         }}
-        ref={particlesNebula}
+        options={nebulaOptions}
+        ref={nebulaRef}
       />
-      {/* Layer 2: Dense, interactive, twinkling stellar field */}
+
+      {/* Layer 2: Starfield (twinkling, moving, interactive, color graded) */}
       <Particles
         id="galaxy-stars"
-        options={starsOptions}
         style={{
           position: "fixed",
           inset: 0,
@@ -289,14 +378,17 @@ function GalaxyBackground() {
           height: "100vh",
           zIndex: 3,
           pointerEvents: "auto",
-          userSelect: "none"
+          userSelect: "none",
+          opacity: 0.75,
+          filter: "brightness(1.11) blur(0.18px) drop-shadow(0 3.5px 15px #fff3) grayscale(0.05)"
         }}
-        ref={particlesStars}
+        options={starsOptions}
+        ref={starsRef}
       />
-      {/* Layer 3: Occasional shooting stars (screen blend) */}
+
+      {/* Layer 3: Shooting stars (screen blend, rare, random directions) */}
       <Particles
         id="galaxy-shooting-stars"
-        options={shootingOptions}
         style={{
           position: "fixed",
           inset: 0,
@@ -305,9 +397,30 @@ function GalaxyBackground() {
           zIndex: 7,
           pointerEvents: "none",
           mixBlendMode: "screen",
+          opacity: 0.88,
+          filter: "blur(1.1px) brightness(1.08) contrast(1.14)"
         }}
-        ref={particlesShooting}
+        options={shootingOptions}
+        ref={shootingRef}
       />
+
+      {/* Layer 4: Interactive cosmic motes/flares (dynamic, user-interactive) */}
+      <Particles
+        id="galaxy-motes"
+        style={{
+          position: "fixed",
+          inset: 0,
+          width: "100vw",
+          height: "100vh",
+          zIndex: 6,
+          pointerEvents: "auto",
+          opacity: 0.65
+        }}
+        options={motesOptions}
+        ref={motesRef}
+      />
+
+      {/* Overlay-safe - leave black voids behind UI zones by default */}
     </div>
   );
 }
