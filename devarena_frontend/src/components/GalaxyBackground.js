@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Particles from "react-tsparticles";
-import galaxyBg from "../assets/20250628_153355_galaxt_.png";
+import galaxyBg from "../assets/20250628_154453_galaxt_.png";
 
 /**
  * PUBLIC_INTERFACE
