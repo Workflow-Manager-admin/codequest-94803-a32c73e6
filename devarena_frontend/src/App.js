@@ -7,6 +7,7 @@ import Sidebar from "./components/Sidebar";
 import Header from "./components/Header";
 import NotificationToaster from "./components/NotificationToaster";
 import ProtectedRoute from "./auth/ProtectedRoute";
+import GalaxyBackground from "./components/GalaxyBackground";
 
 // Lazy load feature screens for code splitting
 const Dashboard = lazy(() => import("./features/Dashboard"));
@@ -55,6 +56,8 @@ function App() {
   return (
     <Router>
       <div className={`devarena-root glass-bg`}>
+        {/* Animated stars & galaxy bg is fixed at root */}
+        <GalaxyBackground />
         <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
         <Sidebar />
         <main className="main-content-glass">

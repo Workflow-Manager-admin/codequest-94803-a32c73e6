@@ -44,6 +44,58 @@ body, html {
   overflow-x: hidden;
 }
 
+/* Galaxy/Universe animated bg container */
+.galaxy-bg-root {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  min-height: 100vh; min-width: 100vw;
+  z-index: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Let the glassmorphism and UI float above */
+}
+.galaxy-bg-image-blend {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  /* overlay a near-circular/ellipse alpha gradient for blending */
+  background: radial-gradient(ellipse at 55% 54%, rgba(36,37,72,0.04) 47%, rgba(25,16,52,0.8) 95%);
+}
+.galaxy-bg-image {
+  width: 80vw;
+  max-width: 1600px;
+  max-height: 87vh;
+  min-width: 360px;
+  object-fit: cover;
+  opacity: 0.90;
+  pointer-events: none;
+  filter: blur(0.5px) brightness(1.10) hue-rotate(-2deg) saturate(1.24) drop-shadow(0 20px 37px #12144e99);
+  mix-blend-mode: lighten;
+  border-radius: 31%/47%;
+  transition: opacity 0.7s;
+  user-select: none;
+}
+/* For extra dark/light theme - slightly tune blend on root */
+[data-theme="dark"] .galaxy-bg-image-blend { background: radial-gradient(ellipse at 56% 54%, rgba(21,19,46,0.08) 42%, rgba(13,8,34,0.89) 98%); }
+[data-theme="light"] .galaxy-bg-image-blend { background: radial-gradient(ellipse at 59% 53%, rgba(176,198,250,0.19) 40%, rgba(166,200,255,0.07) 86%); }
+
+/* Ensure main UI floats above bg nicely everywhere */
+.devarena-root, .glass-bg, .main-content-glass, .sidebar-glass, .header-glass {
+  position: relative;
+  z-index: 5;
+}
+
+/* Mobile-friendly adjustments */
+@media (max-width: 700px) {
+  .galaxy-bg-image { width: 135vw; min-width: 200px; border-radius: 32%/46%; }
+}
+
 .glass-bg,
 .devarena-root {
   position: relative;
